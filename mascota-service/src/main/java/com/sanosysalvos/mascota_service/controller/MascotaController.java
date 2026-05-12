@@ -2,12 +2,16 @@ package com.sanosysalvos.mascota_service.controller;
 
 import com.sanosysalvos.mascota_service.model.Mascota;
 import com.sanosysalvos.mascota_service.service.MascotaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +39,7 @@ public class MascotaController {
     }
 
     @PostMapping
-    public ResponseEntity<Mascota> guardar(@RequestBody Mascota ma){
+    public ResponseEntity<Mascota> guardar(@Valid @RequestBody Mascota ma){
         Mascota mascota = service.saveMascota(ma);
 
         return ResponseEntity
@@ -44,7 +48,7 @@ public class MascotaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Mascota> editar(@PathVariable Integer id,@RequestBody Mascota ma){
+    public ResponseEntity<Mascota> editar(@PathVariable Integer id,@Valid @RequestBody Mascota ma){
         Optional<Mascota> existe = service.getMascota(id);
 
         if (existe.isEmpty()){
@@ -64,4 +68,17 @@ public class MascotaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
+
+        Map<String, String> errores = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach((error) -> {
+            errores.put(error.getField(), error.getDefaultMessage());
+        });
+
+        return ResponseEntity.badRequest().body(errores) ;
+    }
+
 }

@@ -2,12 +2,16 @@ package com.sanosysalvos.refugio_service.controller;
 
 import com.sanosysalvos.refugio_service.model.Refugio;
 import com.sanosysalvos.refugio_service.service.RefugioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +39,7 @@ public class RefugioController {
     }
 
     @PostMapping
-    public ResponseEntity<Refugio> guardar(@RequestBody Refugio re){
+    public ResponseEntity<Refugio> guardar(@Valid @RequestBody Refugio re){
         Refugio refugio = service.saveRefugio(re);
 
         return ResponseEntity
@@ -44,7 +48,7 @@ public class RefugioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Refugio> editar(@PathVariable Integer id,@RequestBody Refugio re){
+    public ResponseEntity<Refugio> editar(@PathVariable Integer id,@Valid @RequestBody Refugio re){
         Optional<Refugio> existe = service.getRefugio(id);
 
         if (existe.isEmpty()){
@@ -64,4 +68,17 @@ public class RefugioController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
+
+        Map<String, String> errores = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach((error) -> {
+            errores.put(error.getField(), error.getDefaultMessage());
+        });
+
+        return ResponseEntity.badRequest().body(errores) ;
+    }
+
 }

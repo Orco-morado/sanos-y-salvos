@@ -21,7 +21,6 @@ public class Comuna {
 
     @Column(name = "nombre_comuna")
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(max=50, message = "El nombre no puede superar mas de 50 caracteres")
     private String nombre;
 
     @Column(name = "cod_postal")

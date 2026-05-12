@@ -2,12 +2,16 @@ package com.sanosysalvos.duenio_service.controller;
 
 import com.sanosysalvos.duenio_service.model.Duenio;
 import com.sanosysalvos.duenio_service.service.DuenioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,7 +41,7 @@ public class DuenioController {
     }
 
     @PostMapping
-    public ResponseEntity<Duenio> guardarDuenio(@RequestBody Duenio du){
+    public ResponseEntity<Duenio> guardarDuenio(@Valid @RequestBody Duenio du){
         Duenio duenio = service.saveDuenio(du);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -47,7 +51,7 @@ public class DuenioController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Duenio> editar(@PathVariable Integer id,@RequestBody Duenio du){
+    public ResponseEntity<Duenio> editar(@PathVariable Integer id,@Valid @RequestBody Duenio du){
         Optional<Duenio> existe = service.getDuenio(id);
 
         if (existe.isEmpty()){
@@ -67,4 +71,17 @@ public class DuenioController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
+
+        Map<String, String> errores = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach((error) -> {
+            errores.put(error.getField(), error.getDefaultMessage());
+        });
+
+        return ResponseEntity.badRequest().body(errores) ;
+    }
+
 }

@@ -2,12 +2,16 @@ package com.sanosysalvos.comuna_service.controller;
 
 import com.sanosysalvos.comuna_service.model.Comuna;
 import com.sanosysalvos.comuna_service.service.ComunaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,7 +41,7 @@ public class ComunaController {
     }
 
     @PostMapping
-    public ResponseEntity<Comuna> guardarComuna(@RequestBody Comuna co){
+    public ResponseEntity<Comuna> guardarComuna(@Valid @RequestBody Comuna co){
         Comuna comuna = service.saveComuna(co);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -45,7 +49,7 @@ public class ComunaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Comuna> editar(@PathVariable Integer id,@RequestBody Comuna co){
+    public ResponseEntity<Comuna> editar(@PathVariable Integer id,@Valid @RequestBody Comuna co){
         Optional<Comuna> existe = service.getComuna(id);
 
         if (existe.isEmpty()){
@@ -65,4 +69,17 @@ public class ComunaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
+
+        Map<String, String> errores = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach((error) -> {
+            errores.put(error.getField(), error.getDefaultMessage());
+        });
+
+        return ResponseEntity.badRequest().body(errores) ;
+    }
+
 }

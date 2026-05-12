@@ -18,22 +18,22 @@ public class Mascota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    @NotBlank(message = "Debes de insertar un nombre")
     private String nombre;
 
-
+    @NotBlank(message = "Debes de insertar una especie")
     private String especie;
 
-
+    @NotBlank(message = "Debes de insertar una raza")
     private String raza;
 
-
+    @NotNull(message = "Debes de insertar una edad")
     private int edad;
 
 
     private char sexo;
 
-
+    @NotBlank(message = "Debes de insertar una descripcion que ayude a identificar a su mascota")
     private String descripcion;
 
     private boolean activo;

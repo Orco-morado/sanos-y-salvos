@@ -1,6 +1,7 @@
 package com.sanosysalvos.veterinaria_service.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +20,6 @@ public class Veterinaria {
     private Integer id;
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(max=50, message = "El nombre no puede superar mas de 20 caracteres")
     private String nombre;
 
     @NotBlank(message = "La direccion es obligatoria")
@@ -27,7 +27,7 @@ public class Veterinaria {
 
     private String comuna;
 
-    @NotNull(message = "El numero de contacto es obligatorio")
+    @Email(message = "El numero de contacto es obligatorio")
     private int num_contacto_v;
 
     @NotBlank(message = "El correo es obligatorio")

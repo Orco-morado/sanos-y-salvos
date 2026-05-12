@@ -1,6 +1,7 @@
 package com.sanosysalvos.refugio_service.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +20,6 @@ public class Refugio {
     private Integer id;
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(max=50, message = "El nombre no puede superar mas de 20 caracteres")
     private String nombre;
 
     @NotBlank(message = "La direccion es obligatoria")
@@ -30,7 +30,7 @@ public class Refugio {
     @NotNull(message = "El numero de contacto es obligatorio")
     private int num_contacto_r;
 
-    @NotBlank(message = "El correo es obligatorio")
+    @Email(message = "El correo es obligatorio")
     private String correo_r;
 
     @NotNull(message = "La capacidad maxima de animales es obligatorio")

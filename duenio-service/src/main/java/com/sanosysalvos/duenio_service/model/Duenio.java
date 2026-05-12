@@ -21,20 +21,18 @@ public class Duenio {
     @NotNull(message = "El run es obligatorio")
     private int rut;
 
-    @NotBlank(message = "El digito verificador es obligatorio")
-    @Size(max=1, message = "El digito verificador no puede superar mas de 1 caracteres")
     private char dv;
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(max=50, message = "El nombre no puede superar mas de 50 caracteres")
     private String nombre;
 
     @NotBlank(message = "El apellido es obligatorio")
-    @Size(max=50, message = "El nombre no puede superar mas de 50 caracteres")
     private String apellido;
 
+    @NotNull(message = "El numero de contacto es obligatorio")
     private int numero;
 
+    @NotBlank(message = "La direccion es obligatorio")
     private String direccion;
 
     private boolean activo;
