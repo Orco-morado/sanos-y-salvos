@@ -31,4 +31,8 @@ public class VeterinariaService {
         else
             throw new RuntimeException("No encontrado");
     }
+
+    public List<Veterinaria> getVeterinariasActivas(){
+        return repository.finVeterinariaActiva();
+    }
 }

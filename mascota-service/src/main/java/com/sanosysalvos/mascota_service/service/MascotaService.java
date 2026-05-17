@@ -40,4 +40,8 @@ public class MascotaService {
         else
             throw new RuntimeException("No encontrado");
     }
+
+    public List<Mascota> getMascotasActivas(){
+        return repository.findMascotasActivas();
+    }
 }

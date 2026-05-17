@@ -20,13 +20,22 @@ public class MascotaController {
     @Autowired
     private MascotaService service;
 
-    @GetMapping
+    //@GetMapping
     public ResponseEntity<List<Mascota>> Listar(){
         List<Mascota> mascota = service.getMascotas();
                 if(mascota.isEmpty())
                     return ResponseEntity.noContent().build();
                 else
                     return ResponseEntity.ok(mascota);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Mascota>> Listar2(){
+        List<Mascota> mascota = service.getMascotasActivas();
+        if(mascota.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.ok(mascota);
     }
 
     @GetMapping("/{id}")

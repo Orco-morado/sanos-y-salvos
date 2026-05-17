@@ -32,4 +32,7 @@ public class DuenioService {
             throw new RuntimeException("No encontrado");
     }
 
+    public List<Duenio> getDueniosActivos(){
+        return repository.findDueniosActivos();
+    }
 }

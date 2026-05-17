@@ -31,4 +31,8 @@ public class ComunaService {
         else
             throw new RuntimeException("No encontrado");
     }
+
+    public List<Comuna> getComunasActivas(){
+        return repository.finComunaActiva();
+    }
 }

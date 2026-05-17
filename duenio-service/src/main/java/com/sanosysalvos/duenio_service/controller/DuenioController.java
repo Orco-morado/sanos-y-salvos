@@ -20,9 +20,19 @@ public class DuenioController {
     @Autowired
     private DuenioService service;
 
-    @GetMapping
+    //@GetMapping
     public ResponseEntity<List<Duenio>> listar(){
         List<Duenio> duenio = service.getDuenios();
+
+        if(duenio.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.ok(duenio);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Duenio>> listarActivos(){
+        List<Duenio> duenio = service.getDueniosActivos();
 
         if(duenio.isEmpty())
             return ResponseEntity.noContent().build();

@@ -31,4 +31,9 @@ public class RefugioService {
         else
            throw new RuntimeException("No encontrado");
     }
+
+    public List<Refugio> getRefugiosActivos(){
+        return repository.finRefugioActivo();
+    }
+
 }

@@ -20,9 +20,18 @@ public class RefugioController {
     @Autowired
     private RefugioService service;
 
-    @GetMapping
+    //@GetMapping
     public ResponseEntity<List<Refugio>> Listar(){
         List<Refugio> refugio = service.getRefugios();
+        if(refugio.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.ok(refugio);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Refugio>> ListarActivos(){
+        List<Refugio> refugio = service.getRefugiosActivos();
         if(refugio.isEmpty())
             return ResponseEntity.noContent().build();
         else

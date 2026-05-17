@@ -27,10 +27,10 @@ public class Veterinaria {
 
     private String comuna;
 
-    @Email(message = "El numero de contacto es obligatorio")
+    @NotNull(message = "El numero de contacto es obligatorio")
     private int num_contacto_v;
 
-    @NotBlank(message = "El correo es obligatorio")
+    @Email(message = "El correo es obligatorio")
     private String correo_v;
 
     private boolean activo;

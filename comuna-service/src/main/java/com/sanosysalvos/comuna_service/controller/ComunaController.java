@@ -20,9 +20,19 @@ public class ComunaController {
     @Autowired
     private ComunaService service;
 
-    @GetMapping
+    //@GetMapping
     public ResponseEntity<List<Comuna>> listar(){
         List<Comuna> comuna = service.getComunas();
+
+        if(comuna.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.ok(comuna);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Comuna>> listarAvtivas(){
+        List<Comuna> comuna = service.getComunasActivas();
 
         if(comuna.isEmpty())
             return ResponseEntity.noContent().build();

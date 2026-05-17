@@ -20,9 +20,18 @@ public class VeterinariaController {
     @Autowired
     private VeterinariaService service;
 
-    @GetMapping
+    //@GetMapping
     public ResponseEntity<List<Veterinaria>> Listar(){
         List<Veterinaria> veterinaria = service.getVeterinarias();
+        if(veterinaria.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.ok(veterinaria);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Veterinaria>> ListarActivas(){
+        List<Veterinaria> veterinaria = service.getVeterinariasActivas();
         if(veterinaria.isEmpty())
             return ResponseEntity.noContent().build();
         else
