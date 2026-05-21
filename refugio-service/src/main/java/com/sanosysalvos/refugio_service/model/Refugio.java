@@ -25,8 +25,6 @@ public class Refugio {
     @NotBlank(message = "La direccion es obligatoria")
     private String direccion;
 
-    private String comuna;
-
     @NotNull(message = "El numero de contacto es obligatorio")
     private int num_contacto_r;
 
@@ -37,4 +35,9 @@ public class Refugio {
     private int capacidad_maxima;
 
     private boolean activo;
+
+    @ManyToOne
+    @JoinColumn(name="id_tipo")
+    private Tipo tipo;
+
 }

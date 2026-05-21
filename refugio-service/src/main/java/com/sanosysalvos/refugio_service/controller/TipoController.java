@@ -1,8 +1,7 @@
 package com.sanosysalvos.refugio_service.controller;
 
-import com.sanosysalvos.refugio_service.dto.RefugioComunaDTO;
-import com.sanosysalvos.refugio_service.model.Refugio;
-import com.sanosysalvos.refugio_service.service.RefugioService;
+import com.sanosysalvos.refugio_service.model.Tipo;
+import com.sanosysalvos.refugio_service.service.TipoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,56 +15,47 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/refugios")
-public class RefugioController {
+@RequestMapping("api/v1/tipos")
+public class TipoController {
     @Autowired
-    private RefugioService service;
-
-    //@GetMapping
-    public ResponseEntity<List<Refugio>> Listar(){
-        List<Refugio> refugio = service.getRefugios();
-        if(refugio.isEmpty())
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(refugio);
-    }
+    private TipoService service;
 
     @GetMapping
-    public ResponseEntity<List<Refugio>> ListarActivos(){
-        List<Refugio> refugio = service.getRefugiosActivos();
-        if(refugio.isEmpty())
+    public ResponseEntity<List<Tipo>> Listar(){
+        List<Tipo> tipo = service.getTipos();
+        if(tipo.isEmpty())
             return ResponseEntity.noContent().build();
         else
-            return ResponseEntity.ok(refugio);
+            return ResponseEntity.ok(tipo);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Refugio> buscarRefugio(@PathVariable Integer id){
-        Optional<Refugio> refugio = service.getRefugio(id);
-        if(refugio.isPresent())
-            return ResponseEntity.ok(refugio.get());
+    public ResponseEntity<Tipo> buscarVeterinaria(@PathVariable Integer id){
+        Optional<Tipo> tipo = service.getTipo(id);
+        if(tipo.isPresent())
+            return ResponseEntity.ok(tipo.get());
         else
             return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Refugio> guardar(@Valid @RequestBody Refugio re){
-        Refugio refugio = service.saveRefugio(re);
+    public ResponseEntity<Tipo> guardar(@Valid @RequestBody Tipo t){
+        Tipo tipo = service.saveTipo(t);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(refugio);
+                .body(tipo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Refugio> editar(@PathVariable Integer id,@Valid @RequestBody Refugio re){
-        Optional<Refugio> existe = service.getRefugio(id);
+    public ResponseEntity<Tipo> editar(@PathVariable Integer id,@Valid @RequestBody Tipo t){
+        Optional<Tipo> existe = service.getTipo(id);
 
         if (existe.isEmpty()){
             return ResponseEntity.notFound().build();}
 
-        re.setId(id);
-        Refugio actualizar = service.saveRefugio(re);
+        t.setId_tipo(id);
+        Tipo actualizar = service.saveTipo(t);
         return ResponseEntity.ok(actualizar);
     }
 
@@ -90,14 +80,4 @@ public class RefugioController {
 
         return ResponseEntity.badRequest().body(errores) ;
     }
-
-    @GetMapping("/comunas")
-    public ResponseEntity<List<RefugioComunaDTO>> listarComunas() {
-        List<RefugioComunaDTO> comunas = service.getComuna();
-        if (comunas.isEmpty())
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(comunas);
-    }
-
 }

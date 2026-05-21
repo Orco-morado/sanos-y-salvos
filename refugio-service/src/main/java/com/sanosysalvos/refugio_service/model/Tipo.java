@@ -1,4 +1,4 @@
-package com.sanosysalvos.mascota_service.model;
+package com.sanosysalvos.refugio_service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -13,18 +13,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="especie")
-public class Especie {
+@Table(name = "tipo_refugio")
+public class Tipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_especie;
+    private Integer id_tipo;
 
-    @NotBlank(message = "Debes de insertar un nombre")
-    private String nombre_especie;
+    @NotBlank(message = "El tipo es obligatorio")
+    private String tipo;
 
     private boolean activo;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "especie", cascade = CascadeType.ALL)
-    private List<Mascota> mascotas;
+    @OneToMany(mappedBy = "tipo", cascade = CascadeType.ALL)
+    private List<Refugio> refugios;
 }

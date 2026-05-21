@@ -25,8 +25,6 @@ public class Veterinaria {
     @NotBlank(message = "La direccion es obligatoria")
     private String direccion;
 
-    private String comuna;
-
     @NotNull(message = "El numero de contacto es obligatorio")
     private int num_contacto_v;
 
@@ -34,4 +32,8 @@ public class Veterinaria {
     private String correo_v;
 
     private boolean activo;
+
+    @ManyToOne
+    @JoinColumn(name="id_tipovet")
+    private Tipo tipo;
 }
