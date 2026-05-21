@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reporte desaparicion`
+-- Estructura de tabla para la tabla `reporte_desaparicion`
 --
 
-CREATE TABLE `reporte desaparicion` (
+CREATE TABLE `reporte_desaparicion` (
   `id` int(11) NOT NULL,
   `id_duenio` int(11) NOT NULL,
   `nombre_mascota` varchar(50) NOT NULL,
@@ -35,8 +35,6 @@ CREATE TABLE `reporte desaparicion` (
   `numero_duenio` int(11) NOT NULL,
   `direccion` varchar(50) NOT NULL,
   `tipo_mascota` varchar(50) NOT NULL,
-  `color` varchar(50) NOT NULL,
-  `raza` int(20) NOT NULL,
   `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
