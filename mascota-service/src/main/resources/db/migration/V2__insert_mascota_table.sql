@@ -1,7 +1,7 @@
 INSERT INTO mascota(
                     id,
                     nombre,
-                    especie,
+                    id_especie,
                     raza,
                     edad,
                     sexo,
@@ -11,7 +11,7 @@ INSERT INTO mascota(
 VALUES (
         5,
         'pepito',
-        'perro',
+        1,
         'chiguagua',
         12,
         'M',

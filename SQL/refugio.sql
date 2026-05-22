@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-05-2026 a las 01:21:20
+-- Tiempo de generación: 21-05-2026 a las 18:56:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `sanosysalvos`
+-- Base de datos: `sanos_salvos_refugio`
 --
 
 -- --------------------------------------------------------
@@ -31,7 +31,6 @@ CREATE TABLE `refugio` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `direccion` varchar(50) NOT NULL,
-  `comuna` varchar(50) NOT NULL,
   `num_contacto_r` varchar(11) NOT NULL,
   `correo_r` varchar(50) NOT NULL,
   `capacidad_maxima` int(11) NOT NULL,
@@ -42,9 +41,10 @@ CREATE TABLE `refugio` (
 -- Volcado de datos para la tabla `refugio`
 --
 
-INSERT INTO `refugio` (`id`, `nombre`, `direccion`, `comuna`, `num_contacto_r`, `correo_r`, `capacidad_maxima`, `activo`) VALUES
-(1, 'Amigos Peludos', '123 de concha y toro', 'Puente Alto', '23456234', 'amigos.pel@amigospeludos.cl', 50, 1),
-(2, 'Refugio', '345 santa rosa', 'San Ramon', '99803458', 'refugi@refugio.cl', 103, 1);
+INSERT INTO `refugio` (`id`, `nombre`, `direccion`, `num_contacto_r`, `correo_r`, `capacidad_maxima`, `activo`) VALUES
+(1, 'Amigos Peludos', '123 de concha y toro', '23456234', 'amigos.pel@amigospeludos.cl', 50, 1),
+(2, 'Refugio', '345 santa rosa', '99803458', 'refugi@refugio.cl', 103, 1),
+(3, 'Refugio Canino', '145 calle siempreviva', '98765432', 'rcanin@refugio.cl', 205, 1);
 
 --
 -- Índices para tablas volcadas
@@ -64,7 +64,7 @@ ALTER TABLE `refugio`
 -- AUTO_INCREMENT de la tabla `refugio`
 --
 ALTER TABLE `refugio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

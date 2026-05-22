@@ -21,8 +21,6 @@ public class Mascota {
     @NotBlank(message = "Debes de insertar un nombre")
     private String nombre;
 
-    @NotBlank(message = "Debes de insertar una especie")
-    private String especie;
 
     @NotBlank(message = "Debes de insertar una raza")
     private String raza;
@@ -37,5 +35,9 @@ public class Mascota {
     private String descripcion;
 
     private boolean activo;
+
+    @ManyToOne
+    @JoinColumn(name="id_especie")
+    private Especie especie;
 
 }

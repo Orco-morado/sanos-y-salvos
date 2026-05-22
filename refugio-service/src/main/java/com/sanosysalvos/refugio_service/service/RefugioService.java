@@ -1,5 +1,7 @@
 package com.sanosysalvos.refugio_service.service;
 
+import com.sanosysalvos.refugio_service.client.ComunaClient;
+import com.sanosysalvos.refugio_service.dto.RefugioComunaDTO;
 import com.sanosysalvos.refugio_service.model.Refugio;
 import com.sanosysalvos.refugio_service.repository.RefugioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import java.util.Optional;
 public class RefugioService {
     @Autowired
     private RefugioRepository repository;
+    @Autowired
+    private ComunaClient comunaClient;
 
     public List<Refugio> getRefugios(){
         return repository.findAll();
@@ -34,6 +38,10 @@ public class RefugioService {
 
     public List<Refugio> getRefugiosActivos(){
         return repository.finRefugioActivo();
+    }
+
+    public List<RefugioComunaDTO> getComuna(){
+        return comunaClient.obtenerComuna();
     }
 
 }

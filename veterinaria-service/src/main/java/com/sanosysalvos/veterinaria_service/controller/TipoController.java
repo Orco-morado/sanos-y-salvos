@@ -1,7 +1,7 @@
-package com.sanosysalvos.mascota_service.controller;
+package com.sanosysalvos.veterinaria_service.controller;
 
-import com.sanosysalvos.mascota_service.model.Especie;
-import com.sanosysalvos.mascota_service.service.EspecieService;
+import com.sanosysalvos.veterinaria_service.model.Tipo;
+import com.sanosysalvos.veterinaria_service.service.TipoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,48 +15,47 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/especies")
-public class EspecieController {
-
+@RequestMapping("api/v1/tipos")
+public class TipoController {
     @Autowired
-    private EspecieService service;
+    private TipoService service;
 
     @GetMapping
-    public ResponseEntity<List<Especie>> Listar(){
-        List<Especie> especies = service.getEspecies();
-        if(especies.isEmpty())
+    public ResponseEntity<List<Tipo>> Listar(){
+        List<Tipo> tipo = service.getTipos();
+        if(tipo.isEmpty())
             return ResponseEntity.noContent().build();
         else
-            return ResponseEntity.ok(especies);
+            return ResponseEntity.ok(tipo);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Especie> buscarEspecie(@PathVariable Integer id){
-        Optional<Especie> especie = service.getEspecie(id);
-        if(especie.isPresent())
-            return ResponseEntity.ok(especie.get());
+    public ResponseEntity<Tipo> buscarVeterinaria(@PathVariable Integer id){
+        Optional<Tipo> tipo = service.getTipo(id);
+        if(tipo.isPresent())
+            return ResponseEntity.ok(tipo.get());
         else
             return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Especie> guardar(@Valid @RequestBody Especie e){
-        Especie especie = service.saveEspecie(e);
+    public ResponseEntity<Tipo> guardar(@Valid @RequestBody Tipo t){
+        Tipo tipo = service.saveTipo(t);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(especie);
+                .body(tipo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Especie> editar(@PathVariable Integer id,@Valid @RequestBody Especie e){
-        Optional<Especie> existe = service.getEspecie(id);
+    public ResponseEntity<Tipo> editar(@PathVariable Integer id,@Valid @RequestBody Tipo t){
+        Optional<Tipo> existe = service.getTipo(id);
 
         if (existe.isEmpty()){
             return ResponseEntity.notFound().build();}
 
-        e.setId_especie(id);
-        Especie actualizar = service.saveEspecie(e);
+        t.setId_tipovet(id);
+        Tipo actualizar = service.saveTipo(t);
         return ResponseEntity.ok(actualizar);
     }
 
