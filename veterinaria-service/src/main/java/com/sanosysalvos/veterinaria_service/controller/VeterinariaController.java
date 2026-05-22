@@ -1,5 +1,6 @@
 package com.sanosysalvos.veterinaria_service.controller;
 
+import com.sanosysalvos.veterinaria_service.dto.VeterinariaComunaDTO;
 import com.sanosysalvos.veterinaria_service.model.Veterinaria;
 import com.sanosysalvos.veterinaria_service.service.VeterinariaService;
 import jakarta.validation.Valid;
@@ -88,5 +89,10 @@ public class VeterinariaController {
         });
 
         return ResponseEntity.badRequest().body(errores) ;
+    }
+
+    @GetMapping("/comunas/{id}")
+    public VeterinariaComunaDTO veterinariaConComuna(@PathVariable Integer id){
+        return service.getVeterinariaComunaDTO(id);
     }
 }
