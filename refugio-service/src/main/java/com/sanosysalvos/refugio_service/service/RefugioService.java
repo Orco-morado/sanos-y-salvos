@@ -1,6 +1,7 @@
 package com.sanosysalvos.refugio_service.service;
 
 import com.sanosysalvos.refugio_service.client.ComunaClient;
+import com.sanosysalvos.refugio_service.dto.ComunaDTO;
 import com.sanosysalvos.refugio_service.dto.RefugioComunaDTO;
 import com.sanosysalvos.refugio_service.model.Refugio;
 import com.sanosysalvos.refugio_service.repository.RefugioRepository;
@@ -40,8 +41,24 @@ public class RefugioService {
         return repository.finRefugioActivo();
     }
 
-    public List<RefugioComunaDTO> getComuna(){
-        return comunaClient.obtenerComuna();
+    public RefugioComunaDTO getRefugioComunaDTO(Integer id){
+        Refugio refugio=
+            repository.findById(id).orElse(null);
+
+        ComunaDTO comuna=
+                comunaClient.obtenerComuna(id);
+
+        RefugioComunaDTO dto= new RefugioComunaDTO();
+        dto.setId(refugio.getId());
+        dto.setNombre(refugio.getNombre());
+        dto.setDireccion(refugio.getDireccion());
+        dto.setCorreo_r(refugio.getCorreo_r());
+        dto.setNum_contacto_r(refugio.getNum_contacto_r());
+        dto.setCapacidad_maxima(refugio.getCapacidad_maxima());
+        dto.setComuna(comuna);
+
+        return dto;
+
     }
 
 }

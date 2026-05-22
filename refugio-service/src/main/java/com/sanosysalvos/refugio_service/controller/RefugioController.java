@@ -91,13 +91,9 @@ public class RefugioController {
         return ResponseEntity.badRequest().body(errores) ;
     }
 
-    @GetMapping("/comunas")
-    public ResponseEntity<List<RefugioComunaDTO>> listarComunas() {
-        List<RefugioComunaDTO> comunas = service.getComuna();
-        if (comunas.isEmpty())
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(comunas);
+    @GetMapping("/comunas/{id}")
+    public RefugioComunaDTO refugioConComuna(@PathVariable Integer id){
+        return service.getRefugioComunaDTO(id);
     }
 
 }

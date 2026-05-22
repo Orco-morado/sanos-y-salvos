@@ -13,14 +13,12 @@ public class RefugioComunaDTO {
 
     private String direccion;
 
-    private String nombre_comuna;
-
     private int num_contacto_r;
 
     private String correo_r;
 
     private int capacidad_maxima;
 
-    private boolean activo;
+    private ComunaDTO comuna;
 
 }
