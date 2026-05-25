@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `reporte_avistamiento` (
-  `id_reporte_avistamiento` int(3) NOT NULL,
-  `descripcion_avistamiento` varchar(50) NOT NULL,
+  `id_avistamiento` int(3) NOT NULL,
+  `descripcion` varchar(50) NOT NULL,
   `direccion_avistamiento` varchar(20) NOT NULL,
-  `nombre_persona_avistamiento` varchar(40) NOT NULL,
+  `persona_avistamiento` varchar(40) NOT NULL,
   `fecha_avistamiento` date NOT NULL,
   `estado_avistamiento` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -40,7 +40,7 @@ CREATE TABLE `reporte_avistamiento` (
 -- Volcado de datos para la tabla `reporte_avistamiento`
 --
 
-INSERT INTO `reporte_avistamiento` (`id_reporte_avistamiento`, `descripcion_avistamiento`, `direccion_avistamiento`, `nombre_persona_avistamiento`, `fecha_avistamiento`, `estado_avistamiento`) VALUES
+INSERT INTO `reporte_avistamiento` (`id_avistamiento`, `descripcion`, `direccion_avistamiento`, `persona_avistamiento`, `fecha_avistamiento`, `estado_avistamiento`) VALUES
 (3, 'perro negro similar a la descripcion de cholo, le ', 'el araucano 11502', 'jose jose', '2026-04-29', 1),
 (4, 'gato blanco con mancha nera en la cara ', 'Calle El Cabildo 450', 'pedro pascal', '2026-05-10', 1),
 (5, 'perro amarillo con un pie cojo posiblemente el que', 'Avenida La Florida 9', 'juan pablo', '2026-05-01', 1),
@@ -54,7 +54,7 @@ INSERT INTO `reporte_avistamiento` (`id_reporte_avistamiento`, `descripcion_avis
 -- Indices de la tabla `reporte_avistamiento`
 --
 ALTER TABLE `reporte_avistamiento`
-  ADD PRIMARY KEY (`id_reporte_avistamiento`);
+  ADD PRIMARY KEY (`id_avistamiento`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -64,7 +64,7 @@ ALTER TABLE `reporte_avistamiento`
 -- AUTO_INCREMENT de la tabla `reporte_avistamiento`
 --
 ALTER TABLE `reporte_avistamiento`
-  MODIFY `id_reporte_avistamiento` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_avistamiento` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -32,7 +32,7 @@ CREATE TABLE `detalles_encuentro` (
   `fecha_encuentro` date NOT NULL,
   `detalles_mascota` varchar(100) NOT NULL,
   `descripcion_para_encuentro` varchar(100) NOT NULL,
-  `direccion` varchar(11) NOT NULL
+  `direccion` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -40,8 +40,8 @@ CREATE TABLE `detalles_encuentro` (
 --
 
 INSERT INTO `detalles_encuentro` (`id_informe`, `fecha_encuentro`, `detalles_mascota`, `descripcion_para_encuentro`, `direccion`) VALUES
-(1, '2026-05-08', 'perro negro rasa boxer con mancha blanca en el ojo derecho, le falta un pedazo en la oreja izquierda', 'se espera que el dueño este vestido de polera azul marca nike, con un jeas negro y zapatillas de col', 'Av. Diego P'),
-(2, '2026-05-29', 'gato blanco con pelo largo, ojos verdes y collar negro', 'descripcion para encuentro\r\ndueño pelo largo castaño, chaqueta de mezclilla, polera negra, jeans azu', 'metro lo pr'),
+(1, '2026-05-08', 'perro negro rasa boxer con mancha blanca en el ojo derecho, le falta un pedazo en la oreja izquierda', 'se espera que el dueño este vestido de polera azul marca nike, con un jeas negro y zapatillas de col', 'Av. Diego Portales'),
+(2, '2026-05-29', 'gato blanco con pelo largo, ojos verdes y collar negro', 'descripcion para encuentro\r\ndueño pelo largo castaño, chaqueta de mezclilla, polera negra, jeans azu', 'metro lo espejo'),
 (3, '2026-05-14', 'perro sin rasa especifica de pelo dorado y tamaño medio, tiene una mancha en el pelo con la forma de', 'descripcion para encuentro\r\ndueño pelo rubio recogido en un moño, aros grandes, cortavientos azul ma', 'Av. Camilo ');
 
 --

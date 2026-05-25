@@ -22,7 +22,7 @@ public class RefugioController {
     private RefugioService service;
 
     //@GetMapping
-    public ResponseEntity<List<Refugio>> Listar(){
+    public ResponseEntity<List<Refugio>> listar(){
         List<Refugio> refugio = service.getRefugios();
         if(refugio.isEmpty())
             return ResponseEntity.noContent().build();
@@ -31,7 +31,7 @@ public class RefugioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Refugio>> ListarActivos(){
+    public ResponseEntity<List<Refugio>> listarActivos(){
         List<Refugio> refugio = service.getRefugiosActivos();
         if(refugio.isEmpty())
             return ResponseEntity.noContent().build();
