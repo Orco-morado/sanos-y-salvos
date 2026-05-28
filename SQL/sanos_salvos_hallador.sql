@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-05-2026 a las 22:42:47
+-- Tiempo de generación: 28-05-2026 a las 22:42:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `sanos_salvos_veterinaria`
+-- Base de datos: `sanos_salvos_hallador`
 --
 
 -- --------------------------------------------------------
@@ -45,52 +45,31 @@ CREATE TABLE `flyway_schema_history` (
 --
 
 INSERT INTO `flyway_schema_history` (`installed_rank`, `version`, `description`, `type`, `script`, `checksum`, `installed_by`, `installed_on`, `execution_time`, `success`) VALUES
-(1, '1', '<< Flyway Baseline >>', 'BASELINE', '<< Flyway Baseline >>', NULL, 'root', '2026-05-09 15:50:31', 0, 1),
-(2, '2', 'insert table veterinaria', 'SQL', 'V2__insert_table_veterinaria.sql', -838589106, 'root', '2026-05-21 22:01:15', 8, 1);
+(1, '1', '<< Flyway Baseline >>', 'BASELINE', '<< Flyway Baseline >>', NULL, 'root', '2026-05-28 20:29:25', 0, 1),
+(2, '2', 'insert table hallador', 'SQL', 'V2__insert_table_hallador.sql', 132421855, 'root', '2026-05-28 20:35:05', 10, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_veterinaria`
+-- Estructura de tabla para la tabla `hallador`
 --
 
-CREATE TABLE `tipo_veterinaria` (
-  `id_tipovet` int(11) NOT NULL,
-  `tipo` varchar(50) NOT NULL,
-  `activo` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tipo_veterinaria`
---
-
-INSERT INTO `tipo_veterinaria` (`id_tipovet`, `tipo`, `activo`) VALUES
-(1, 'privada', 1),
-(2, 'publica', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `veterinaria`
---
-
-CREATE TABLE `veterinaria` (
+CREATE TABLE `hallador` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `direccion` varchar(50) NOT NULL,
-  `num_contacto_v` varchar(11) NOT NULL,
-  `correo_v` varchar(50) NOT NULL,
-  `id_tipovet` int(11) NOT NULL,
-  `activo` int(11) NOT NULL
+  `apellido` varchar(50) NOT NULL,
+  `telefono` int(11) NOT NULL,
+  `correo` varchar(50) NOT NULL,
+  `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `veterinaria`
+-- Volcado de datos para la tabla `hallador`
 --
 
-INSERT INTO `veterinaria` (`id`, `nombre`, `direccion`, `num_contacto_v`, `correo_v`, `id_tipovet`, `activo`) VALUES
-(1, 'San juan', '28 avenida Sun Shine', '24356718', 'sanvet@sanjuanvet.cl', 2, 1),
-(2, 'Veterinaria Alibio', '303 calle Trinidad', '91823546', 'alibio@alibiovet.cl', 1, 1);
+INSERT INTO `hallador` (`id`, `nombre`, `apellido`, `telefono`, `correo`, `activo`) VALUES
+(1, 'Pedro', 'Perez', 873513457, 'Elmanco@gmail.com', 1),
+(2, 'Maria', 'Peniario', 981237615, 'MariPe@gmail.com', 1);
 
 --
 -- Índices para tablas volcadas
@@ -104,32 +83,19 @@ ALTER TABLE `flyway_schema_history`
   ADD KEY `flyway_schema_history_s_idx` (`success`);
 
 --
--- Indices de la tabla `tipo_veterinaria`
+-- Indices de la tabla `hallador`
 --
-ALTER TABLE `tipo_veterinaria`
-  ADD PRIMARY KEY (`id_tipovet`);
-
---
--- Indices de la tabla `veterinaria`
---
-ALTER TABLE `veterinaria`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_tipovet` (`id_tipovet`);
+ALTER TABLE `hallador`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `tipo_veterinaria`
+-- AUTO_INCREMENT de la tabla `hallador`
 --
-ALTER TABLE `tipo_veterinaria`
-  MODIFY `id_tipovet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `veterinaria`
---
-ALTER TABLE `veterinaria`
+ALTER TABLE `hallador`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
