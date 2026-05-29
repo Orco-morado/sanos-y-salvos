@@ -32,6 +32,8 @@ public class HistorialMascota {
     @Column(name = "des_estado_mascota")
     private String desEstadoMascota;
 
-    // El tinyint(1) de MySQL se mapea automáticamente a boolean en Java
     private boolean estado;
+
+    @Column(name = "id_mascota")
+    private Integer idMascota;
 }

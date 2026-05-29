@@ -1,5 +1,6 @@
 package com.service.historial_mascota_service.controller;
 
+import com.service.historial_mascota_service.dto.HistorialMascotaDTO;
 import com.service.historial_mascota_service.model.HistorialMascota;
 import com.service.historial_mascota_service.service.HistorialMascotaService;
 import jakarta.validation.Valid;
@@ -83,6 +84,17 @@ public class HistorialMascotaController {
         });
 
         return ResponseEntity.badRequest().body(errores);
+    }
+    @GetMapping("/{id}/completo")
+    public ResponseEntity<HistorialMascotaDTO> obtenerHistorialConMascota(@PathVariable Integer id) {
+        // Llama al método que creamos en el Service que usa el MascotaClient
+        HistorialMascotaDTO dto = service.getHistorialCompleto(id);
+
+        if (dto != null) {
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

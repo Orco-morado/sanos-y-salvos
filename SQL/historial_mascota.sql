@@ -28,12 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `historial_mascota` (
-  `id_historial` int(4) NOT NULL,
+  `id_historial` int(11) NOT NULL AUTO_INCREMENT,
+  `id_mascota` int(11) NOT NULL, -- LA COLUMNA NUEVA
   `descripcion_tratamientos` varchar(200) NOT NULL,
-  `cant_vacunas` int(2) NOT NULL,
+  `cant_vacunas` int(11) NOT NULL,
   `des_estado_mascota` varchar(150) NOT NULL,
-  `estado` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_historial`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci; ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `historial_mascota`
