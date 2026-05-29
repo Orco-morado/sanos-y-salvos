@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `refugio` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `direccion` varchar(50) NOT NULL,
+  `direccion` varchar(150) NOT NULL,
   `num_contacto_r` varchar(11) NOT NULL,
   `correo_r` varchar(50) NOT NULL,
   `capacidad_maxima` int(11) NOT NULL,

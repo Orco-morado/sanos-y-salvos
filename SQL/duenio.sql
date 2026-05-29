@@ -34,7 +34,7 @@ CREATE TABLE `duenio` (
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
   `numero` int(11) NOT NULL,
-  `direccion` varchar(100) NOT NULL,
+  `direccion` varchar(200) NOT NULL,
   `activo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

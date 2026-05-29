@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `historial_mascota` (
   `id_historial` int(4) NOT NULL,
-  `descripcion_tratamientos` varchar(100) NOT NULL,
+  `descripcion_tratamientos` varchar(200) NOT NULL,
   `cant_vacunas` int(2) NOT NULL,
   `des_estado_mascota` varchar(150) NOT NULL,
   `estado` tinyint(1) NOT NULL
