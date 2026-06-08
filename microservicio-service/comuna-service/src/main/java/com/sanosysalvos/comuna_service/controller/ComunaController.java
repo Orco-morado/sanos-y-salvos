@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/comunas")
@@ -35,7 +39,7 @@ public class ComunaController {
 
     @Operation(summary = "Obtiene todos los detalles de las comunas")
     @GetMapping
-    public ResponseEntity<List<Comuna>> listarAvtivas(){
+    public ResponseEntity<List<Comuna>> getActivas(){
         List<Comuna> comuna = service.getComunasActivas();
 
         if(comuna.isEmpty())
@@ -46,14 +50,32 @@ public class ComunaController {
 
     @Operation(summary = "Obtiene todos los detalles de una comuna em especifico")
     @GetMapping("/{id}")
-    public ResponseEntity<Comuna> buscarComuna(@PathVariable Integer id){
+    public EntityModel<Comuna> getComuna(@PathVariable Integer id){
+        Comuna comuna = service.getComuna(id).orElseThrow();
+        EntityModel<Comuna> model = EntityModel.of(comuna);
+
+        model.add(
+                linkTo(
+                        methodOn(ComunaController.class).getComuna(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(ComunaController.class).getActivas()
+                ).withRel("Todas las Comunas")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<Comuna> buscarComuna(@PathVariable Integer id){
         Optional<Comuna> comuna = service.getComuna(id);
 
         if(comuna.isPresent())
             return ResponseEntity.ok(comuna.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @Operation(summary = "Añades comunas a la base de datos")
     @PostMapping
