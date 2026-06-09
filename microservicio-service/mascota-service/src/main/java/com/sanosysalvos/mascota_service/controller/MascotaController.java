@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/mascotas")
@@ -34,7 +38,7 @@ public class MascotaController {
 
     @Operation(summary = "Obtiene todos los detalles de las mascotas")
     @GetMapping
-    public ResponseEntity<List<Mascota>> Listar2(){
+    public ResponseEntity<List<Mascota>> getActivas(){
         List<Mascota> mascota = service.getMascotasActivas();
         if(mascota.isEmpty())
             return ResponseEntity.noContent().build();
@@ -44,13 +48,32 @@ public class MascotaController {
 
     @Operation(summary = "Obtiene todos los detalles de una mascota")
     @GetMapping("/{id}")
+    public EntityModel<Mascota> getMascota(@PathVariable Integer id){
+        Mascota mascota = service.getMascota(id).orElseThrow();
+        EntityModel<Mascota> model = EntityModel.of(mascota);
+
+        model.add(
+                linkTo(
+                        methodOn(MascotaController.class).getMascota(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(MascotaController.class).getActivas()
+                ).withRel("Todas las Comunas")
+        );
+
+        return model;
+    }
+    /*
     public ResponseEntity<Mascota> buscarMascota(@PathVariable Integer id){
         Optional<Mascota> mascota = service.getMascota(id);
         if(mascota.isPresent())
             return ResponseEntity.ok(mascota.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @Operation(summary = "Añade mascotas")
     @PostMapping

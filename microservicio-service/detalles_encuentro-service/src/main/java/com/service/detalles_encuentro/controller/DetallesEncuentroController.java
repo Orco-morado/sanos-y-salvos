@@ -4,6 +4,7 @@ import com.service.detalles_encuentro.model.DetallesEncuentro;
 import com.service.detalles_encuentro.service.DetallesEncuentroService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/detalles-encuentro")
@@ -31,13 +35,31 @@ public class DetallesEncuentroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetallesEncuentro> buscarPorId(@PathVariable Integer id) {
+    public EntityModel<DetallesEncuentro> getDetalleEncuentro(@PathVariable Integer id){
+        DetallesEncuentro detallesEncuentro = service.buscarPorId(id).orElseThrow();
+        EntityModel<DetallesEncuentro> model = EntityModel.of(detallesEncuentro);
+
+        model.add(
+                linkTo(
+                        methodOn(DetallesEncuentroController.class).getDetalleEncuentro(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(DetallesEncuentroController.class).listar()
+                ).withRel("Todos los encuentros")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<DetallesEncuentro> buscarPorId(@PathVariable Integer id) {
         Optional<DetallesEncuentro> detalle = service.buscarPorId(id);
         if (detalle.isPresent()) {
             return ResponseEntity.ok(detalle.get());
         }
         return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<DetallesEncuentro> guardar(@Valid @RequestBody DetallesEncuentro detalle) {

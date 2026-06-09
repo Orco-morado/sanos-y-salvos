@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/refugios")
@@ -35,7 +39,7 @@ public class RefugioController {
 
     @Operation(summary = "Obtiene todos los detalles de los Refugios")
     @GetMapping
-    public ResponseEntity<List<Refugio>> listarActivos(){
+    public ResponseEntity<List<Refugio>> getActivos(){
         List<Refugio> refugio = service.getRefugiosActivos();
         if(refugio.isEmpty())
             return ResponseEntity.noContent().build();
@@ -45,13 +49,31 @@ public class RefugioController {
 
     @Operation(summary = "Obtiene todos los detalles de un solo Refugio")
     @GetMapping("/{id}")
-    public ResponseEntity<Refugio> buscarRefugio(@PathVariable Integer id){
+    public EntityModel<Refugio> getRefugio(@PathVariable Integer id){
+        Refugio refugio = service.getRefugio(id).orElseThrow();
+        EntityModel<Refugio> model = EntityModel.of(refugio);
+
+        model.add(
+                linkTo(
+                        methodOn(RefugioController.class).getRefugio(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(RefugioController.class).getActivos()
+                ).withRel("Todos los Refugios")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<Refugio> buscarRefugio(@PathVariable Integer id){
         Optional<Refugio> refugio = service.getRefugio(id);
         if(refugio.isPresent())
             return ResponseEntity.ok(refugio.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @Operation(summary = "Añades Refugios")
     @PostMapping

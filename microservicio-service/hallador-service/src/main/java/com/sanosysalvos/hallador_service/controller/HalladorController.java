@@ -4,6 +4,7 @@ import com.sanosysalvos.hallador_service.model.Hallador;
 import com.sanosysalvos.hallador_service.service.HalladorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,13 +15,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("api/v1/halladores")
 public class HalladorController {
     @Autowired
     private HalladorService service;
     @GetMapping
-    public ResponseEntity<List<Hallador>> Listar() {
+    public ResponseEntity<List<Hallador>> getHalladores() {
         List<Hallador> hallador = service.getHalladores();
         if (hallador.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -30,13 +34,31 @@ public class HalladorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Hallador> buscarHallador(@PathVariable Integer id){
+    public EntityModel<Hallador> getHallador(@PathVariable Integer id){
+        Hallador hallador = service.getHallador(id).orElseThrow();
+        EntityModel<Hallador> model = EntityModel.of(hallador);
+
+        model.add(
+                linkTo(
+                        methodOn(HalladorController.class).getHallador(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(HalladorController.class).getHalladores()
+                ).withRel("Todas las Comunas")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<Hallador> buscarHallador(@PathVariable Integer id){
         Optional<Hallador> hallador= service.getHallador(id);
         if(hallador.isPresent())
             return ResponseEntity.ok(hallador.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<Hallador> guardar(@Valid @RequestBody Hallador ha){

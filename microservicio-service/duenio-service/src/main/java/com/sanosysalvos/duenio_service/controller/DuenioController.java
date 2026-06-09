@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/duenios")
@@ -35,7 +39,7 @@ public class DuenioController {
 
     @Operation(summary = "Obtiene todos los detalles de los dueños")
     @GetMapping
-    public ResponseEntity<List<Duenio>> listarActivos(){
+    public ResponseEntity<List<Duenio>> getActivos(){
         List<Duenio> duenio = service.getDueniosActivos();
 
         if(duenio.isEmpty())
@@ -46,14 +50,32 @@ public class DuenioController {
 
     @Operation(summary = "Obtiene todos los detalles de un solo dueño")
     @GetMapping("/{id}")
-    public ResponseEntity<Duenio> buscarDuenio(@PathVariable Integer id){
+    public EntityModel<Duenio> getDuenio(@PathVariable Integer id){
+        Duenio comuna = service.getDuenio(id).orElseThrow();
+        EntityModel<Duenio> model = EntityModel.of(comuna);
+
+        model.add(
+                linkTo(
+                        methodOn(DuenioController.class).getDuenio(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(DuenioController.class).getActivos()
+                ).withRel("Todos los Dueños")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<Duenio> buscarDuenio(@PathVariable Integer id){
         Optional<Duenio> duenio = service.getDuenio(id);
 
         if(duenio.isPresent())
             return ResponseEntity.ok(duenio.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @Operation(summary = "Añades dueños")
     @PostMapping

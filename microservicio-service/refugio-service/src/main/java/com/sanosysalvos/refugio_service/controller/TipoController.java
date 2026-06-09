@@ -2,8 +2,11 @@ package com.sanosysalvos.refugio_service.controller;
 
 import com.sanosysalvos.refugio_service.model.Tipo;
 import com.sanosysalvos.refugio_service.service.TipoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,14 +17,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("api/v1/tipos")
+@Tag(name = "Tipos", description = "Operaciones relacionadas con los Tipos de Refugios")
 public class TipoController {
     @Autowired
     private TipoService service;
 
+    @Operation(summary = "Obtiene todos los detalles de los Tipos de Refugios")
     @GetMapping
-    public ResponseEntity<List<Tipo>> Listar(){
+    public ResponseEntity<List<Tipo>> getTipos(){
         List<Tipo> tipo = service.getTipos();
         if(tipo.isEmpty())
             return ResponseEntity.noContent().build();
@@ -29,15 +37,35 @@ public class TipoController {
             return ResponseEntity.ok(tipo);
     }
 
+    @Operation(summary = "Obtiene todos los detalles de un Tipo de Refugio en especifico")
     @GetMapping("/{id}")
-    public ResponseEntity<Tipo> buscarVeterinaria(@PathVariable Integer id){
+    public EntityModel<Tipo> getTipo(@PathVariable Integer id){
+        Tipo tipo = service.getTipo(id).orElseThrow();
+        EntityModel<Tipo> model = EntityModel.of(tipo);
+
+        model.add(
+                linkTo(
+                        methodOn(TipoController.class).getTipo(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(TipoController.class).getTipos()
+                ).withRel("Todos los Tipos")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<Tipo> buscarVeterinaria(@PathVariable Integer id){
         Optional<Tipo> tipo = service.getTipo(id);
         if(tipo.isPresent())
             return ResponseEntity.ok(tipo.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
+    @Operation(summary = "Añade un Tipo de Refugio")
     @PostMapping
     public ResponseEntity<Tipo> guardar(@Valid @RequestBody Tipo t){
         Tipo tipo = service.saveTipo(t);
@@ -47,6 +75,7 @@ public class TipoController {
                 .body(tipo);
     }
 
+    @Operation(summary = "Modifica un Tipo de Refugio")
     @PutMapping("/{id}")
     public ResponseEntity<Tipo> editar(@PathVariable Integer id,@Valid @RequestBody Tipo t){
         Optional<Tipo> existe = service.getTipo(id);
@@ -59,6 +88,7 @@ public class TipoController {
         return ResponseEntity.ok(actualizar);
     }
 
+    @Operation(summary = "Elimina un Tipo de Refugio")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id){
         try{

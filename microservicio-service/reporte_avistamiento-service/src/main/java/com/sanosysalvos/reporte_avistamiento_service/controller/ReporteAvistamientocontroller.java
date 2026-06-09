@@ -4,6 +4,7 @@ import com.sanosysalvos.reporte_avistamiento_service.model.ReporteAvistamiento;
 import com.sanosysalvos.reporte_avistamiento_service.service.ReporteAvistamientoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/reporte-avistamiento")
@@ -30,7 +34,7 @@ public class ReporteAvistamientocontroller {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReporteAvistamiento>> listarActivos() {
+    public ResponseEntity<List<ReporteAvistamiento>> getActivos() {
         List<ReporteAvistamiento> avistamientos = service.getAvistamientosActivos();
         if (avistamientos.isEmpty())
             return ResponseEntity.noContent().build();
@@ -39,13 +43,31 @@ public class ReporteAvistamientocontroller {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReporteAvistamiento> buscarAvistamiento(@PathVariable Integer id) {
+    public EntityModel<ReporteAvistamiento> getAvistamiento(@PathVariable Integer id){
+        ReporteAvistamiento reporteAvistamiento = service.getAvistamiento(id).orElseThrow();
+        EntityModel<ReporteAvistamiento> model = EntityModel.of(reporteAvistamiento);
+
+        model.add(
+                linkTo(
+                        methodOn(ReporteAvistamientocontroller.class).getAvistamiento(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(ReporteAvistamientocontroller.class).getActivos()
+                ).withRel("Todos los Avistamientos")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<ReporteAvistamiento> buscarAvistamiento(@PathVariable Integer id) {
         Optional<ReporteAvistamiento> avistamiento = service.getAvistamiento(id);
         if (avistamiento.isPresent())
             return ResponseEntity.ok(avistamiento.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<ReporteAvistamiento> guardar(@Valid @RequestBody ReporteAvistamiento avistamiento) {

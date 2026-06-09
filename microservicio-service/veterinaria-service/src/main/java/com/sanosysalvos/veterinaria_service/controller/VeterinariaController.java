@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/veterinarias")
@@ -35,7 +39,7 @@ public class VeterinariaController {
 
     @Operation(summary = "Obtiene todos los detalles de las veterinarias")
     @GetMapping
-    public ResponseEntity<List<Veterinaria>> ListarActivas(){
+    public ResponseEntity<List<Veterinaria>> getActivas(){
         List<Veterinaria> veterinaria = service.getVeterinariasActivas();
         if(veterinaria.isEmpty())
             return ResponseEntity.noContent().build();
@@ -45,13 +49,31 @@ public class VeterinariaController {
 
     @Operation(summary = "Obtiene todos los detalles de una sola veterinaria")
     @GetMapping("/{id}")
-    public ResponseEntity<Veterinaria> buscarVeterinaria(@PathVariable Integer id){
+    public EntityModel<Veterinaria> getVeterinaria(@PathVariable Integer id){
+        Veterinaria veterinaria = service.getVeterianria(id).orElseThrow();
+        EntityModel<Veterinaria> model = EntityModel.of(veterinaria);
+
+        model.add(
+                linkTo(
+                        methodOn(VeterinariaController.class).getVeterinaria(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(VeterinariaController.class).getActivas()
+                ).withRel("Todas las Comunas")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<Veterinaria> buscarVeterinaria(@PathVariable Integer id){
         Optional<Veterinaria> veterinaria = service.getVeterianria(id);
         if(veterinaria.isPresent())
             return ResponseEntity.ok(veterinaria.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @Operation(summary = "Añades veterinarias")
     @PostMapping

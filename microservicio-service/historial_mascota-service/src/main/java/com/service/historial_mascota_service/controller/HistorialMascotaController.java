@@ -5,6 +5,7 @@ import com.service.historial_mascota_service.model.HistorialMascota;
 import com.service.historial_mascota_service.service.HistorialMascotaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/historial-mascota")
@@ -30,7 +34,7 @@ public class HistorialMascotaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<HistorialMascota>> listarActivos(){
+    public ResponseEntity<List<HistorialMascota>> getActivos(){
         List<HistorialMascota> historiales = service.listarActivos();
         if(historiales.isEmpty())
             return ResponseEntity.noContent().build();
@@ -39,13 +43,31 @@ public class HistorialMascotaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HistorialMascota> buscarporid(@PathVariable Integer id){
+    public EntityModel<HistorialMascota> getHistorial(@PathVariable Integer id){
+        HistorialMascota historialMascota = service.buscarPorId(id).orElseThrow();
+        EntityModel<HistorialMascota> model = EntityModel.of(historialMascota);
+
+        model.add(
+                linkTo(
+                        methodOn(HistorialMascotaController.class).getHistorial(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(HistorialMascotaController.class).getActivos()
+                ).withRel("Todos los Historiales de Mascotas")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<HistorialMascota> buscarporid(@PathVariable Integer id){
         Optional<HistorialMascota> historiales = service.buscarPorId(id);
         if(historiales.isPresent())
             return ResponseEntity.ok(historiales.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<HistorialMascota> guardar(@Valid @RequestBody HistorialMascota historial) {

@@ -4,6 +4,7 @@ import com.sanosysalvos.reporte_desaparicion_service.model.ReporteDesaparicion;
 import com.sanosysalvos.reporte_desaparicion_service.service.ReporteDesaparicionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/reporte-desaparicion")
@@ -31,7 +35,7 @@ public class ReporteDesaparicionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReporteDesaparicion>> listarActivos(){
+    public ResponseEntity<List<ReporteDesaparicion>> getActivos(){
         List<ReporteDesaparicion> reportes = service.getReportesActivos();
         if(reportes.isEmpty())
             return ResponseEntity.noContent().build();
@@ -40,13 +44,31 @@ public class ReporteDesaparicionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReporteDesaparicion> buscarReporte(@PathVariable Integer id){
+    public EntityModel<ReporteDesaparicion> getDesaparicion(@PathVariable Integer id){
+        ReporteDesaparicion reporteDesaparicion = service.getReporte(id).orElseThrow();
+        EntityModel<ReporteDesaparicion> model = EntityModel.of(reporteDesaparicion);
+
+        model.add(
+                linkTo(
+                        methodOn(ReporteDesaparicionController.class).getDesaparicion(id)
+                ).withSelfRel()
+        );
+
+        model.add(
+                linkTo(
+                        methodOn(ReporteDesaparicionController.class).getActivos()
+                ).withRel("Todas las Desapariciones")
+        );
+
+        return model;
+    }
+    /*public ResponseEntity<ReporteDesaparicion> buscarReporte(@PathVariable Integer id){
         Optional<ReporteDesaparicion> reporte = service.getReporte(id);
         if(reporte.isPresent())
             return ResponseEntity.ok(reporte.get());
         else
             return ResponseEntity.notFound().build();
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<ReporteDesaparicion> guardar(@Valid @RequestBody ReporteDesaparicion re){
