@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: comunas
+            uri: http://localhost:8083
+            predicates:
+              - Path=/api/v1/comunas/**
+
+          - id: mascotas
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/v1/mascotas/**
+
+          - id: duenios
+            uri: http://localhost:8082
+            predicates:
+              - Path=/api/v1/duenios/**
+
+          - id: refugios
+            uri: http://localhost:8084
+            predicates:
+              - Path=/api/v1/refugios/**
