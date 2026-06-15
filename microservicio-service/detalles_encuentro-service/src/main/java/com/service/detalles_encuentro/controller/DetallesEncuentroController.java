@@ -2,6 +2,8 @@ package com.service.detalles_encuentro.controller;
 
 import com.service.detalles_encuentro.model.DetallesEncuentro;
 import com.service.detalles_encuentro.service.DetallesEncuentroService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
@@ -20,11 +22,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("api/v1/detalles-encuentro")
+@Tag(name = "Encuentros", description = "Operaciones relacionadas con los detalles de los encuetros")
 public class DetallesEncuentroController {
 
     @Autowired
     private DetallesEncuentroService service;
 
+    @Operation(summary = "Obtiene todos los detalles de los encuentros")
     @GetMapping
     public ResponseEntity<List<DetallesEncuentro>> listar() {
         List<DetallesEncuentro> detalles = service.listarTodos();
@@ -34,6 +38,7 @@ public class DetallesEncuentroController {
         return ResponseEntity.ok(detalles);
     }
 
+    @Operation(summary = "Obtiene todos los detalles de un encutro especifico")
     @GetMapping("/{id}")
     public EntityModel<DetallesEncuentro> getDetalleEncuentro(@PathVariable Integer id){
         DetallesEncuentro detallesEncuentro = service.buscarPorId(id).orElseThrow();
@@ -61,12 +66,14 @@ public class DetallesEncuentroController {
         return ResponseEntity.notFound().build();
     }*/
 
+    @Operation(summary = "Te permite añadir un encuentro con sus respectivos detalles")
     @PostMapping
     public ResponseEntity<DetallesEncuentro> guardar(@Valid @RequestBody DetallesEncuentro detalle) {
         DetallesEncuentro nuevoDetalle = service.guardar(detalle);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoDetalle);
     }
 
+    @Operation(summary = "Te permite mdificar los detalles de un encuentro")
     @PutMapping("/{id}")
     public ResponseEntity<DetallesEncuentro> editar(@PathVariable Integer id, @Valid @RequestBody DetallesEncuentro detalle) {
         Optional<DetallesEncuentro> existe = service.buscarPorId(id);
@@ -80,6 +87,7 @@ public class DetallesEncuentroController {
         return ResponseEntity.ok(actualizado);
     }
 
+    @Operation(summary = "Te permite eliminar un encuentro")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         try {
