@@ -21,6 +21,9 @@ public class HistorialMascotaDTO {
 
     private boolean estado;
 
+    @JsonProperty("id_mascota")
+    private Integer idMascota;
+
     // Aquí es donde incrustamos el objeto completo de la mascota
     private MascotaDTO mascota;
 }

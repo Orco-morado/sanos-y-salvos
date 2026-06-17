@@ -34,6 +34,7 @@ public class HistorialMascota {
 
     private boolean estado;
 
+    @NotNull(message = "El ID de mascota es obligatorio")
     @Column(name = "id_mascota")
     private Integer idMascota;
 }
