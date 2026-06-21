@@ -14,12 +14,10 @@ public class HalladorPrueba {
         Hallador h = new Hallador();
 
         h.setNombre(faker.name().fullName());
-        h.setRut(faker.number().numberBetween(10000000, 99999999));
         h.setActivo(true);
 
         assertNotNull(h);
         assertNotNull(h.getNombre());
-        assertTrue(h.getRut() > 0);
         assertTrue(h.isActivo());
     }
 }

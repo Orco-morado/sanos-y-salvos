@@ -16,7 +16,7 @@
 		<java.version>21</java.version>
 	</properties>
 
-	<!--    BOM obligatorio    -->
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -28,7 +28,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<!--  -  -  -  -  -  -  -  -  -->
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,13 +39,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--    DEPENDENCIAS CLIENTE EUREKA    -->
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
-		<!--    CLIENTE HTTP MODERNO    -->
+
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
@@ -61,7 +61,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<!--  -  -  -  -  -  -  -  -  -->
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
