@@ -25,3 +25,14 @@ Desapariciones: http://localhost:8080/api/v1/reporte-desaparicion/
 
 Cuando termines de trabajar y desees apagar la arquitectura para liberar recursos de tu máquina, ejecuta el siguiente comando en la misma terminal donde levantaste los servicios:Bashdocker compose down
 Esto detendrá t odos los contenedores de los microservicios y eliminará la red interna (microservicios-net) de manera limpia.¿Qué te parece? ¡Si quieres agregarle una sección explicando algo más específico para los profesores o el equipo, me avisas y lo incluimos!
+
+
+💡
+docker compose up -d --build
+(Compila el código, construye las imágenes, crea la red interna)
+
+docker compose ps
+(Muestra el estado actual de tus contenedores)
+
+docker compose down
+(Detiene todos los contenedores y elimina la red creada, liberando todos los recursos de tu máquina.)
