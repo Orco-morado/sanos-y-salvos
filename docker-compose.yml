@@ -1,8 +1,8 @@
-# docker-compose.yml
 services:
   eureka-server:
     build:
       context: ./microservicio-service/eureka-server
+    container_name: eureka-server
     ports:
       - "8761:8761"
     networks:
@@ -11,6 +11,7 @@ services:
   gateway:
     build:
       context: ./microservicio-service/gateway
+    container_name: gateway
     ports:
       - "8080:8080"
     environment:
@@ -23,56 +24,9 @@ services:
   comuna-service:
     build:
       context: ./microservicio-service/comuna-service
-    ports:
-      - "8081:8081"
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - eureka-server
-    networks:
-      - microservicios-net
-
-  detalles-encuentro-service:
-    build:
-      context: ./microservicio-service/detalles_encuentro-service
-    ports:
-      - "8082:8082"
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - eureka-server
-    networks:
-      - microservicios-net
-
-  duenio-service:
-    build:
-      context: ./microservicio-service/duenio-service
+    container_name: comuna-service
     ports:
       - "8083:8083"
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - eureka-server
-    networks:
-      - microservicios-net
-
-  hallador-service:
-    build:
-      context: ./microservicio-service/hallador-service
-    ports:
-      - "8084:8084"
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - eureka-server
-    networks:
-      - microservicios-net
-
-  historial-mascota-service:
-    build:
-      context: ./microservicio-service/historial_mascota-service
-    ports:
-      - "8085:8085"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
@@ -83,8 +37,22 @@ services:
   mascota-service:
     build:
       context: ./microservicio-service/mascota-service
+    container_name: mascota-service
     ports:
-      - "8086:8086"
+      - "8081:8081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - microservicios-net
+
+  duenio-service:
+    build:
+      context: ./microservicio-service/duenio-service
+    container_name: duenio-service
+    ports:
+      - "8082:8082"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
@@ -95,32 +63,9 @@ services:
   refugio-service:
     build:
       context: ./microservicio-service/refugio-service
+    container_name: refugio-service
     ports:
-      - "8087:8087"
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - eureka-server
-    networks:
-      - microservicios-net
-
-  reporte-avistamiento-service:
-    build:
-      context: ./microservicio-service/reporte_avistamiento-service
-    ports:
-      - "8088:8088"
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    depends_on:
-      - eureka-server
-    networks:
-      - microservicios-net
-
-  reporte-desaparicion-service:
-    build:
-      context: ./microservicio-service/reporte_desaparicion-service
-    ports:
-      - "8089:8089"
+      - "8084:8084"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
@@ -131,6 +76,72 @@ services:
   veterinaria-service:
     build:
       context: ./microservicio-service/veterinaria-service
+    container_name: veterinaria-service
+    ports:
+      - "8085:8085"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - microservicios-net
+
+  reporte-avistamiento-service:
+    build:
+      context: ./microservicio-service/reporte_avistamiento-service
+    container_name: reporte-avistamiento-service
+    ports:
+      - "8086:8086"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - microservicios-net
+
+  reporte-desaparicion-service:
+    build:
+      context: ./microservicio-service/reporte_desaparicion-service
+    container_name: reporte-desaparicion-service
+    ports:
+      - "8087:8087"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - microservicios-net
+
+  detalles-encuentro-service:
+    build:
+      context: ./microservicio-service/detalles_encuentro-service
+    container_name: detalles-encuentro-service
+    ports:
+      - "8088:8088"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - microservicios-net
+
+  historial-mascota-service:
+    build:
+      context: ./microservicio-service/historial_mascota-service
+    container_name: historial-mascota-service
+    ports:
+      - "8089:8089"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - microservicios-net
+
+  hallador-service:
+    build:
+      context: ./microservicio-service/hallador-service
+    container_name: hallador-service
     ports:
       - "8091:8091"
     environment:
@@ -142,4 +153,4 @@ services:
 
 networks:
   microservicios-net:
-    driver: bridges
+    driver: bridge

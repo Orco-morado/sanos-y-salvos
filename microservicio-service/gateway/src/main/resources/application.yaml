@@ -10,51 +10,58 @@ spring:
       mvc:
         routes:
           - id: comunas
-            uri: http://localhost:8083
+            uri: http://comuna-service:8083
             predicates:
               - Path=/api/v1/comunas/**
 
           - id: mascotas
-            uri: http://localhost:8081
+            uri: http://mascota-service:8081
             predicates:
               - Path=/api/v1/mascotas/**
 
           - id: duenios
-            uri: http://localhost:8082
+            uri: http://duenio-service:8082
             predicates:
               - Path=/api/v1/duenios/**
 
           - id: refugios
-            uri: http://localhost:8084
+            uri: http://refugio-service:8084
             predicates:
               - Path=/api/v1/refugios/**
 
           - id: veterinarias
-            uri: http://localhost:8085
+            uri: http://veterinaria-service:8085
             predicates:
               - Path=/api/v1/veterinarias/**
 
           - id: reporte-avistamiento
-            uri: http://localhost:8086
+            uri: http://reporte-avistamiento-service:8086
             predicates:
               - Path=/api/v1/reporte-avistamiento/**
 
           - id: reporte-desaparicion
-            uri: http://localhost:8087
+            uri: http://reporte-desaparicion-service:8087
             predicates:
               - Path=/api/v1/reporte-desaparicion/**
 
           - id: detalles-encuentro
-            uri: http://localhost:8088
+            uri: http://detalles-encuentro:8088
             predicates:
               - Path=/api/v1/detalles-encuentro/**
 
           - id: historial-mascota
-            uri: http://localhost:8089
+            uri: http://historial-mascota-service:8089
             predicates:
               - Path=/api/v1/historial-mascota/**
 
           - id: halladores
-            uri: http://localhost:8091
+            uri: http://hallador-service:8091
             predicates:
               - Path=/api/v1/halladores/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
