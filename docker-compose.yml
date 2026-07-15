@@ -52,7 +52,7 @@ services:
       context: ./microservicio-service/duenio-service
     container_name: duenio-service
     ports:
-      - "8082:8082"
+      - "8095:8095"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
